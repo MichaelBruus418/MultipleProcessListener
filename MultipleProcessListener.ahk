@@ -1,11 +1,11 @@
-﻿; ***********************************************************************************
+#Requires AutoHotkey v2
+#SingleInstance force  
+
+; ***********************************************************************************
 ; --- Multiple Process Listener ---
 ; Description:
 ; Listens for activation/termination of user defined processes. 
 ; Runs a batch file (or whatever you wish) in accordance.
-
-; Requirements
-; AutoHotKey v2
 
 ; Author
 ; Mihael Bruus, 2023
