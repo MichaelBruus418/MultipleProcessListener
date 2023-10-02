@@ -2,9 +2,7 @@
 ; --- Multiple Process Listener ---
 ; Description:
 ; Listens for activation/termination of user defined processes. 
-; Activates specific windows power schemes in accordance.
-; When process start is detected, Audio Power Plan is activated.
-; When process end is dectected and no other process end is pending, balanced power scheme is activated. 
+; Runs a batch file (or whatever you wish) in accordance.
 
 ; Requirements
 ; AutoHotKey v2
@@ -17,11 +15,11 @@
 ; Define name of processes that will trigger loading of Audio power plan
 waitForProcessStart := ["Cubase11.exe", "VST Live.exe"]
 
-; Path to Audio power plan
-audioPowerPlan := "D:\PowerPlan_AudioPower.bat"
+; Path to Process Started batch file.
+startedPath := "D:\ProcessStarted.bat"
 
-; Path to Balanced power plan (default)
-balancedPowerPlan := "D:\PowerPlan_Balanced.bat"
+; Path to All Processes Ended batch file.
+endedPath := "D:\AllProcessesEnded.bat"
 
 ; Set debugging mode (prints info to message box)
 debug := 0
@@ -29,8 +27,8 @@ debug := 0
 
 ; Holds names of processes that must be checked for termination
 waitForProcessEnd := []
-; Path to last activated power plan
-activePowerPlan := ""
+; Path to currently (i.e. last) executed batch file.
+currentPath := ""
 
 loop 
 {
@@ -42,11 +40,10 @@ loop
 			output("Process has started: " waitForProcessStart[i])
 			waitForProcessEnd.push(waitForProcessStart[i])
 			waitForProcessStart.removeAt(i)
-			; Activate Audio Power Plan if not already running
-			if (activePowerPlan != audioPowerPlan) {
-				output("Activating Audio Power Plan")
-				activePowerPlan := audioPowerPlan
-				Run activePowerPlan,,"Hide"
+			if (currentPath != startedPath) {
+				output("Calling startedPath")
+				currentPath := startedPath
+				Run currentPath,,"Hide"
 			}
 		}
 		else {
@@ -62,11 +59,10 @@ loop
 			output("Process has ended: " waitForProcessEnd[i])
 			waitForProcessStart.push(waitForProcessEnd[i])
 			waitForProcessEnd.removeAt(i)
-			; Activate Balanced Power Plan if not already running AND waitForProcessEnd is empty
-			if (waitForProcessEnd.length = 0 and activePowerPlan != balancedPowerPlan) {
-				output("Activating Balanced Power Plan")
-				activePowerPlan := balancedPowerPlan
-				Run activePowerPlan,,"Hide"
+			if (waitForProcessEnd.length = 0 and currentPath != endedPath) {
+				output("Calling endedPath")
+				currentPath := endedPath
+				Run endedPath,,"Hide"
 			}
 		}
 		else {
