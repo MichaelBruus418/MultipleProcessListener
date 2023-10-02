@@ -12,7 +12,7 @@
 ; ***********************************************************************************
 
 ; --- Config --------------------------------------------------------------------------------
-; Define name of processes that will trigger loading of Audio power plan
+; Define name of processes we'll observe
 waitForProcessStart := ["Cubase11.exe", "VST Live.exe"]
 
 ; Path to Process Started batch file.
