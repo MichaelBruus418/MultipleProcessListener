@@ -62,7 +62,7 @@ loop
 			if (waitForProcessEnd.length = 0 and currentPath != endedPath) {
 				output("Calling endedPath")
 				currentPath := endedPath
-				Run endedPath,,"Hide"
+				Run currentPath,,"Hide"
 			}
 		}
 		else {
